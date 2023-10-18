@@ -5,15 +5,14 @@ import javax.swing.JFrame;
 
 public class Main extends JFrame {
     public static final int WINDOW_SIZE = 512;
-    public static final int THRESHOLD = 10; // stopping criterion for recursion
+    public static final int THRESHOLD = 10;
     public static int P1_x, P1_y, P2_x, P2_y, P3_x, P3_y;
 
     public Main() {
         super("Sierpinski");
 
-        setSize(WINDOW_SIZE, WINDOW_SIZE);//from   w w  w  .  ja  v  a 2  s  . c om
+        setSize(WINDOW_SIZE, WINDOW_SIZE);
 
-        // A simple triangle
         P1_x = (int) getSize().getWidth() / 2;
         ;
         P1_y = 40;
@@ -27,7 +26,6 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    // Compute the midpoint
     public Point getMiddle(Point p1, Point p2) {
         return new Point((int) (p1.getX() + p2.getX()) / 2, (int) (p1.getY() + p2.getY()) / 2);
     }
@@ -39,19 +37,15 @@ public class Main extends JFrame {
     }
 
     public void draw(Point p1, Point p2, Point p3) {
-        // termination condition
         if (p1.distance(p2) < THRESHOLD && p1.distance(p3) < THRESHOLD && p2.distance(p3) < THRESHOLD)
-            return; // stop recursion
-        // draw the current triangle
+            return;
         Graphics g = getGraphics();
         g.drawLine((int) p1.getX(), (int) p1.getY(), (int) p2.getX(), (int) p2.getY());
         g.drawLine((int) p2.getX(), (int) p2.getY(), (int) p3.getX(), (int) p3.getY());
         g.drawLine((int) p3.getX(), (int) p3.getY(), (int) p1.getX(), (int) p1.getY());
-        // recursively draw the 3 smaller corner triangles
         Point m12 = getMiddle(p1, p2);
         Point m23 = getMiddle(p2, p3);
         Point m31 = getMiddle(p3, p1);
-        // Recursive calls
         draw(p1, m12, m31);
 
         draw(p2, m23, m12);
